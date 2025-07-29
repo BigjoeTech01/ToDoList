@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(ToDoList());
 }
 
@@ -47,32 +48,31 @@ class _ToDoListState extends State<ToDoList> {
           children: [
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Expanded(
-                child: TextField(
-                  controller: taskController,
-                  decoration: InputDecoration(
-                    suffixIcon: Card(
-                      margin: EdgeInsets.all(5),
-                      child: IconButton(
-                        style: IconButton.styleFrom(
-                          backgroundColor: Colors.amber,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
+              child: TextField(
+                controller: taskController,
+                decoration: InputDecoration(
+                  suffixIcon: Card(
+                    margin: EdgeInsets.all(5),
+                    child: IconButton(
+                      style: IconButton.styleFrom(
+                        backgroundColor: Colors.amber,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
                         ),
-                        onPressed: () {
-                          setState(() {});
-                          if (taskController.text.isNotEmpty) {
+                      ),
+                      onPressed: () {
+                        if (taskController.text.isNotEmpty) {
+                          setState(() {
                             task.add(Task(title: taskController.text.trim()));
                             taskController.clear();
-                          }
-                        },
-                        icon: Icon(Icons.add, color: Colors.white),
-                      ),
+                          });
+                        }
+                      },
+                      icon: Icon(Icons.add, color: Colors.white),
                     ),
-                    hintText: 'Add new task',
-                    hintStyle: TextStyle(color: Colors.grey),
                   ),
+                  hintText: 'Add new task',
+                  hintStyle: TextStyle(color: Colors.grey),
                 ),
               ),
             ),
@@ -104,8 +104,9 @@ class _ToDoListState extends State<ToDoList> {
                       leading: Checkbox(
                         value: task[index].isDone,
                         onChanged: (bool? newValue) {
-                          setState(() {});
-                          task[index].isDone = newValue!;
+                          setState(() {
+                            task[index].isDone = newValue!;
+                          });
                         },
                       ),
                       trailing: Padding(
@@ -116,8 +117,9 @@ class _ToDoListState extends State<ToDoList> {
                         ),
                         child: IconButton(
                           onPressed: () {
-                            setState(() {});
-                            task.removeAt(index);
+                            setState(() {
+                              task.removeAt(index);
+                            });
                           },
                           icon: Icon(
                             Icons.delete,
